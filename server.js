@@ -120,8 +120,11 @@ app.post('/api/sos/accept', async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 });
-app.get("/", (req, res) => {
-    res.send("🚑 AmbuQuick API is running...");
-});
+const path = require("path");
 
+app.use(express.static(__dirname));
+
+app.get("/", (req, res) => {
+    res.sendFile(path.join(__dirname, "index.html"));
+});
 
