@@ -15,7 +15,7 @@ mongoose.connection.on('error', (err) => console.error('Mongoose default connect
 mongoose.connection.on('disconnected', () => console.log('Mongoose default connection disconnected'));
 
 console.log("Attempting to connect to MongoDB...");
-mongoose.connect(process.env.MONGO_URI, {
+mongoose.connect(mongodb+srv://omkar200:vip200@cluster0.vt8rzcj.mongodb.net/ambuquick?appName=Cluster0, {
     serverSelectionTimeoutMS: 100000, // Keep trying to connect for 5 seconds
     socketTimeoutMS: 450000, // Close sockets after 45 seconds of inactivity
 })
