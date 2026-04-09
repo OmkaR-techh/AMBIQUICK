@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AmbuQuick Platform</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- AUTH VIEW -->
+  <div id="auth-view" class="view auth-wrapper active">
+    <div class="auth-panel">
+      <div class="logo lg mb-2">
+        <i class='bx bx-plus-medical'></i>
+        <span>AmbuQuick</span>
+      </div>
+      <h2 id="auth-title">Welcome Back</h2>
+      <p id="auth-subtitle" class="text-muted mb-2">Log in to request or drive an ambulance.</p>
+
+      <form id="auth-form">
+        <div id="signup-fields" style="display: none;">
+          <div class="form-group">
+            <label>Role</label>
+            <select id="auth-role" class="input-field">
+              <option value="patient">Patient</option>
+              <option value="driver">Driver</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Full Name</label>
+            <input type="text" id="auth-name" class="input-field" placeholder="John Doe">
+          </div>
+          <div class="form-group">
+            <label>Phone Number</label>
+            <input type="text" id="auth-phone" class="input-field" placeholder="+1 234 567 8900">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Email Address</label>
+          <div class="input-wrapper">
+            <i class='bx bx-envelope pin-icon'></i>
+            <input type="email" id="auth-email" class="input-field-icon" placeholder="name@email.com" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Password</label>
+          <div class="input-wrapper">
+            <i class='bx bx-lock-alt pin-icon'></i>
+            <input type="password" id="auth-password" class="input-field-icon" placeholder="••••••••" required>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary full-width mt-2" id="auth-submit-btn">Log In</button>
+      </form>
+
+      <div class="text-center mt-2">
+        <button class="link-btn" id="auth-toggle-btn" onclick="toggleAuthMode()">Don't have an account? Sign up</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN APP SHELL -->
+  <div id="app" style="display: none;">
+
+    <!-- SIDEBAR (Desktop Only) -->
+    <aside id="sidebar" class="sidebar">
+      <div class="logo lg sidebar-logo">
+        <i class='bx bx-plus-medical'></i>
+        <span>AmbuQuick</span>
+      </div>
+      <nav class="sidebar-nav">
+        <button class="nav-item active" onclick="navTo('landing-view')"><i class='bx bxs-home'></i>
+          <span>Dashboard</span></button>
+        <button class="nav-item patient-only" onclick="navTo('patient-home')"><i class='bx bx-history'></i> <span>My
+            History</span></button>
+        <button class="nav-item driver-only" onclick="navTo('driver-dashboard')"><i class='bx bx-car'></i> <span>Driver
+            Hub</span></button>
+        <button class="nav-item patient-only" onclick="navTo('sos-form')"><i class='bx bxs-shield-plus'></i>
+          <span>Emergency SOS</span></button>
+      </nav>
+      <div class="sidebar-footer">
+        <button class="nav-item text-danger" onclick="logout()"><i class='bx bx-log-out'></i> <span>Log
+            Out</span></button>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT AREA -->
+    <main class="app-content">
+
+      <!-- 1. Landing View -->
+      <div id="landing-view" class="view">
+        <header class="navbar mobile-only">
+          <div class="logo">
+            <i class='bx bx-plus-medical'></i>
+            <span>AmbuQuick</span>
+          </div>
+          <button class="icon-btn text-danger" onclick="logout()"><i class='bx bx-log-out'></i></button>
+        </header>
+
+        <div class="main-content center-content">
+          <div class="sos-container">
+            <button class="sos-btn pulse-anim patient-only" onclick="navTo('sos-form')">
+              <span class="sos-text">SOS</span>
+              <span class="sos-sub">Tap for Emergency</span>
+            </button>
+            <h2 class="driver-only text-center mt-2">Ready to save lives?</h2>
+            <button class="btn btn-primary driver-only mt-2" onclick="navTo('driver-dashboard')">Go to Driver
+              Dashboard</button>
+          </div>
+
+          <p class="tagline patient-only">Immediate Response, Anytime</p>
+
+          <div class="quick-links patient-only max-w-sm mx-auto">
+            <div class="card link-card">
+              <div class="card-icon"><i class='bx bx-timer'></i></div>
+              <div>
+                <h3>Rapid Dispatch</h3>
+                <p>Average ETA 8 mins</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bottom Nav Mobile -->
+        <div class="bottom-nav mobile-only">
+          <button class="nav-item active" onclick="navTo('landing-view')"><i class='bx bxs-home'></i></button>
+          <button class="nav-item patient-only" onclick="navTo('patient-home')"><i class='bx bx-history'></i></button>
+          <button class="nav-item driver-only" onclick="navTo('driver-dashboard')"><i class='bx bx-car'></i></button>
+        </div>
+      </div>
+
+      <!-- 2. Patient Home View (History) -->
+      <div id="patient-home" class="view">
+        <header class="navbar border-bot">
+          <button class="back-btn mobile-only" onclick="navTo('landing-view')"><i class='bx bx-arrow-back'></i></button>
+          <h3>Patient Dashboard</h3>
+          <div style="width:24px;"></div>
+        </header>
+
+        <div class="main-content bg-grey p-lg">
+          <div class="profile-header desktop-row">
+            <div class="flex items-center gap-16">
+              <img src="https://ui-avatars.com/api/?name=User&background=ffe8ea&color=D71A3A" alt="Profile"
+                class="profile-img">
+              <div>
+                <h2 id="patient-name-display">John Doe</h2>
+                <p class="text-muted">Patient Profile</p>
+              </div>
+            </div>
+            <button class="btn btn-primary mobile-full mt-m2" onclick="navTo('sos-form')">New Emergency Request</button>
+          </div>
+
+          <div class="section-title mt-2">My Request History</div>
+
+          <div class="desktop-table-container">
+            <!-- Desktop Table -->
+            <table class="history-table desktop-only">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Emergency</th>
+                  <th>Pickup Location</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="patient-history-table">
+                <!-- JS injected -->
+              </tbody>
+            </table>
+
+            <!-- Mobile Cards -->
+            <div class="activity-list mobile-only" id="patient-history-cards">
+              <!-- JS injected -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. SOS Form View -->
+      <div id="sos-form" class="view">
+        <header class="navbar">
+          <button class="back-btn mobile-only" onclick="navTo('landing-view')"><i class='bx bx-arrow-back'></i></button>
+          <h3>Confirm Details</h3>
+          <div style="width: 24px;"></div>
+        </header>
+
+        <div class="main-content max-w-md mx-auto">
+          <p class="form-desc text-center">Please verify the information below before dispatching an ambulance.</p>
+
+          <div class="form-group mt-2">
+            <label>Pickup Location</label>
+            <div class="input-wrapper">
+              <i class='bx bx-map pin-icon'></i>
+              <input type="text" id="req-location" class="input-field-icon" value="123 Main St, Springfield" required>
+            </div>
+          </div>
+
+          <div class="form-group mt-2">
+            <label>Emergency Type</label>
+            <select id="req-type" class="input-field">
+              <option value="Accident">Accident</option>
+              <option value="Heart Attack">Heart Attack</option>
+              <option value="Fire">Fire</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+
+          <div class="form-group mt-2">
+            <label>Additional Notes (Optional)</label>
+            <textarea id="req-notes" class="input-field"
+              placeholder="Any specific details that might help..."></textarea>
+          </div>
+
+          <button class="btn btn-primary full-width mt-2" onclick="submitSOS()">Confirm Dispatch Request</button>
+        </div>
+      </div>
+
+      <!-- 4. Live Tracking View -->
+      <div id="live-tracking" class="view map-view">
+        <div class="map-container">
+          <img src="map.png" alt="Map">
+        </div>
+
+        <button class="floating-back-btn blur-bg" onclick="navTo('landing-view')"><i
+            class='bx bx-arrow-back'></i></button>
+
+        <!-- Desktop Sidebar Overlay -->
+        <div class="bottom-floating-card blur-bg desktop-side-card">
+          <div class="eta-bar">
+            <div class="pulse-dot"></div>
+            <h2>Ambulance Dispatched!</h2>
+            <span class="eta-time">En Route</span>
+          </div>
+
+          <div class="driver-info">
+            <i class='bx bxs-ambulance text-primary' style="font-size:32px;"></i>
+            <div class="driver-details">
+              <h4 id="dispatch-status">Looking for nearest driver...</h4>
+              <p>We've received your request.</p>
+            </div>
+          </div>
+
+          <button class="btn btn-danger-outline full-width mt-2" onclick="navTo('landing-view')">Close Tracking</button>
+        </div>
+      </div>
+
+      <!-- 5. Driver Dashboard View -->
+      <div id="driver-dashboard" class="view">
+        <header class="navbar border-bot">
+          <button class="back-btn mobile-only" onclick="navTo('landing-view')"><i class='bx bx-arrow-back'></i></button>
+          <h3>Driver Hub</h3>
+          <div class="toggle-status">
+            <span class="status-dot online"></span>
+            <span id="driver-name-display">Online</span>
+          </div>
+        </header>
+
+        <div class="main-content bg-grey p-lg">
+          <div class="stats-grid">
+            <div class="stat-card">
+              <i class='bx bx-broadcast stat-icon'></i>
+              <p>Status</p>
+              <h3>Active</h3>
+            </div>
+            <div class="stat-card cursor-pointer" onclick="fetchPendingRequests()">
+              <i class='bx bx-refresh stat-icon'></i>
+              <p>Network</p>
+              <h3>Refresh Jobs</h3>
+            </div>
+          </div>
+
+          <div class="section-title mt-2">Available Emergency Requests</div>
+          <p class="text-muted text-sm mb-2">Click an emergency to open the tracking module and accept it.</p>
+
+          <div class="desktop-table-container">
+            <table class="history-table desktop-only">
+              <thead>
+                <tr>
+                  <th>Time</th>
+                  <th>Patient</th>
+                  <th>Location</th>
+                  <th>Type</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="driver-pending-table">
+                <!-- JS injected -->
+              </tbody>
+            </table>
+
+            <div class="activity-list mobile-only" id="driver-pending-cards">
+              <!-- JS injected -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 6. Driver Tracking / Accept Request -->
+      <div id="driver-hub" class="view map-view">
+        <div class="map-container">
+          <img src="map.png" alt="Map">
+        </div>
+
+        <div class="new-request-overlay active desktop-side-card border-none">
+          <div class="request-card slide-up shadow-lg">
+            <div class="pulse-ring">
+              <i class='bx bxs-bell-ring'></i>
+            </div>
+            <h2>Emergency Dispatch Action</h2>
+
+            <div class="req-details" id="dispatch-action-details">
+              <!-- Injected JS -->
+            </div>
+
+            <div class="action-buttons">
+              <button class="btn btn-danger-outline flex-1" onclick="navTo('driver-dashboard')">Decline</button>
+              <button class="btn btn-success flex-1 shadow-md" id="accept-job-btn">Accept Request</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <script src="main.js"></script>
+</body>
+
+</html>
